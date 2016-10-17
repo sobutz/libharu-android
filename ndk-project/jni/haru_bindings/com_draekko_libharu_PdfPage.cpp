@@ -431,7 +431,7 @@ JNIEXPORT jint JNICALL Java_com_draekko_libharu_PdfPage_textRect
     const char* alignment_str = env->GetStringUTFChars(alignment_value, 0);
 
     const char *text = env->GetStringUTFChars(jtext, 0);
-    HPDF_UINT  *len;
+    HPDF_UINT  len;
     HPDF_REAL  left = jleft;
     HPDF_REAL  top = jtop;
     HPDF_REAL  right = jright;
@@ -452,7 +452,7 @@ JNIEXPORT jint JNICALL Java_com_draekko_libharu_PdfPage_textRect
     }
 
     HPDF_Page page = get_HPDF_Page(env, obj);
-    HPDF_Page_TextRect (page, left, top, right, bottom, text, align, len);
+    HPDF_Page_TextRect (page, left, top, right, bottom, text, align, &len);
 
     env->ReleaseStringUTFChars(jtext, text);
 
