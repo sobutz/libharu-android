@@ -24,7 +24,7 @@
 #include "hpdf.h"
 #include "haru_error_handler.h"
 #include <assert.h>
-#include <android/log.h>  
+#include <android/log.h>
 
 jfieldID Document_HPDF_Font_Pointer_ID;
 
@@ -43,7 +43,7 @@ HPDF_Font get_HPDF_Font(JNIEnv *env, jobject obj)  {
     return (HPDF_Font)ptr;
 }
 
- 
+
 void set_HPDF_Font(JNIEnv *env, jobject obj, HPDF_Font ptr) {
     env->SetLongField(obj, Document_HPDF_Font_Pointer_ID, (long)ptr);
 }
@@ -76,7 +76,7 @@ JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfFont_construct
 
     haru_setup_error_handler(env, __func__);
 
-    jclass BuiltinFont = env->FindClass("com/draekko/libharu/PdfFont$BuiltinFont");
+    jclass BuiltinFont = env->FindClass("com/draekko/libharu/PdfFont$HaruFont");
     jmethodID getNameMethod = env->GetMethodID(BuiltinFont, "name", "()Ljava/lang/String;");
     jstring builtin_value = (jstring)env->CallObjectMethod(fontEnum, getNameMethod);
     const char* builtin_str = env->GetStringUTFChars(builtin_value, 0);

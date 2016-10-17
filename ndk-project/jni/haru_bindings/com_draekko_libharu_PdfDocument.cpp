@@ -56,6 +56,10 @@ JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfDocument_construct
     if (pdf == NULL) {
         haru_throw_exception("Failed to create pdf pointer.");
     }
+    /* enable UTF-8 encoding */
+    HPDF_UseUTFEncodings(pdf);
+    HPDF_SetCurrentEncoder(pdf, "UTF-8");
+
     set_HPDF_Doc(env, obj, pdf);
     if (pdf == NULL) {
         haru_throw_exception("Failed to create a new PDF document.");
@@ -88,9 +92,9 @@ JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfDocument_setCompressionMode
     if (strcmp(comp_str, "COMP_NONE") == 0) {
         mode = HPDF_COMP_NONE;
     } else if (strcmp(comp_str, "COMP_TEXT") == 0) {
-        mode = HPDF_COMP_TEXT; 
+        mode = HPDF_COMP_TEXT;
     } else if (strcmp(comp_str, "COMP_IMAGE") == 0) {
-        mode = HPDF_COMP_IMAGE; 
+        mode = HPDF_COMP_IMAGE;
     } else if (strcmp(comp_str, "COMP_METADATA") == 0) {
         mode = HPDF_COMP_METADATA;
     } else if (strcmp(comp_str, "COMP_ALL") == 0) {
@@ -114,7 +118,7 @@ JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfDocument_setPermission
 
     if (permissions < 1 || permissions > 15) {
         haru_throw_exception("Unknown permission mode.");
-    }  
+    }
 
     HPDF_Doc pdf = get_HPDF_Doc(env, obj);
     if (pdf == NULL) {
@@ -140,10 +144,10 @@ JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfDocument_setEncryptionMode
         mode = HPDF_ENCRYPT_R2;
         keylen = 5;
     } else if (strcmp(comp_str, "ENCRYPT_R3_40") == 0) {
-        mode = HPDF_ENCRYPT_R3; 
+        mode = HPDF_ENCRYPT_R3;
         keylen = 5;
     } else if (strcmp(comp_str, "ENCRYPT_R3_128") == 0) {
-        mode = HPDF_ENCRYPT_R3; 
+        mode = HPDF_ENCRYPT_R3;
         keylen = 16;
     } else {
         haru_throw_exception("Unknown encryption mode.");
@@ -160,7 +164,7 @@ JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfDocument_setEncryptionMode
 
 JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfDocument_setPassword
   (JNIEnv *env, jobject obj, jstring jownerpass, jstring juserpass) {
-  
+
     haru_setup_error_handler(env, __func__);
     const char *ownerpass = (char*)env->GetStringUTFChars(jownerpass, NULL);
     const char *userpass = (char*)env->GetStringUTFChars(juserpass, NULL);
@@ -182,7 +186,7 @@ JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfDocument_setPassword
 
 JNIEXPORT void JNICALL Java_com_draekko_libharu_PdfDocument_setInfoAttr
   (JNIEnv *env, jobject obj, jint mode, jstring jvalue) {
-  
+
     haru_setup_error_handler(env, __func__);
     const char *value = (char*)env->GetStringUTFChars(jvalue, NULL);
     if (value == NULL) {
